@@ -35,6 +35,31 @@ public class AutoCompletionChoiceTestCase {
         choice = new AutoCompletionChoice(text, displayText, cssName, from, to);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void nullTextThrowsNullPointerException() {
+        new AutoCompletionChoice(null, displayText, cssName, from, to);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullDisplayTextThrowsNullPointerException() {
+        new AutoCompletionChoice(text, null, cssName, from, to);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullCssClassNameThrowsNullPointerException() {
+        new AutoCompletionChoice(text, displayText, null, from, to);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullFromThrowsNullPointerException() {
+        new AutoCompletionChoice(text, displayText, cssName, null, to);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullToThrowsNullPointerException() {
+        new AutoCompletionChoice(text, displayText, cssName, from, null);
+    }
+
     @Test
     public void getTextShouldReturnSuppliedText() {
         assertThat(choice.getText(), is(equalTo(text)));

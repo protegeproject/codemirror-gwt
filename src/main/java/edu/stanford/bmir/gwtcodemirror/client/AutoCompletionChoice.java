@@ -5,6 +5,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 import java.io.Serializable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * @author Matthew Horridge, Stanford University, Bio-Medical Informatics Research Group, Date: 18/03/2014
  */
@@ -26,12 +28,12 @@ public class AutoCompletionChoice implements Serializable, IsSerializable {
     private AutoCompletionChoice() {
     }
 
-    public AutoCompletionChoice(String text, String displayText, String cssClassName, EditorPosition replaceTextFrom, EditorPosition getReplaceTextTo) {
-        this.text = text;
-        this.displayText = displayText;
-        this.cssClassName = cssClassName;
-        this.replaceTextFrom = replaceTextFrom;
-        this.replaceTextTo = getReplaceTextTo;
+    public AutoCompletionChoice(String text, String displayText, String cssClassName, EditorPosition replaceTextFrom, EditorPosition replaceTextTo) {
+        this.text = checkNotNull(text);
+        this.displayText = checkNotNull(displayText);
+        this.cssClassName = checkNotNull(cssClassName);
+        this.replaceTextFrom = checkNotNull(replaceTextFrom);
+        this.replaceTextTo = checkNotNull(replaceTextTo);
     }
 
     public String getText() {
