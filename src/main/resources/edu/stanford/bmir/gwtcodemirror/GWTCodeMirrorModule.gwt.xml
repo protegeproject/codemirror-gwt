@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='GWTCodeMirrorModule'>
+    <!-- Inherit the core Web Toolkit stuff.                        -->
+    <inherits name='com.google.gwt.user.User'/>
+
+    <inherits name='com.google.gwt.junit.JUnit'/>
+
+    <!--<inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
+
+    <inherits name="com.google.common.base.Base"/>
+
+    <entry-point class='edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirrorModule'/>
+
+
+    <!-- CodeMirror Syntax Highlighting -->
+    <script src="codemirror/lib/codemirror.js"/>
+    <!-- CodeMirror addon for autocompletion support -->
+    <script src="codemirror/addon/hint/show-hint.js"/>
+    <!-- CodeMirror mode for Manchester Syntax -->
+    <script src="codemirror/mode/manchestersyntax/manchestersyntax.js"/>
+
+    <!-- stylesheets for codemirror, for manchester syntax and show-hint -->
+    <stylesheet src="codemirror/lib/codemirror.css"/>
+    <stylesheet src="manchestersyntax.css"/>
+    <stylesheet src="codemirror/addon/hint/show-hint.css"/>
+
+    <source path='client'/>
+    <!--<public path="public"/>-->
+
+</module>
