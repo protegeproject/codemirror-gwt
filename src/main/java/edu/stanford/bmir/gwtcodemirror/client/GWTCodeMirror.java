@@ -269,7 +269,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private JavaScriptObject createAutoCompletionResult(AutoCompletionChoice choice) {
         JavaScriptObject from = choice.getReplaceTextFrom().toJavaScriptObject();
-        JavaScriptObject to = choice.getGetReplaceTextTo().toJavaScriptObject();
+        JavaScriptObject to = choice.getReplaceTextTo().toJavaScriptObject();
         return createAutoCompletionResult(choice.getText(), choice.getDisplayText(), choice.getCssClassName(), from, to);
     }
 

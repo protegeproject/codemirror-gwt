@@ -1,5 +1,6 @@
 package edu.stanford.bmir.gwtcodemirror.client;
 
+import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public class AutoCompletionChoice implements Serializable, IsSerializable {
 
     private EditorPosition replaceTextFrom;
 
-    private EditorPosition getReplaceTextTo;
+    private EditorPosition replaceTextTo;
 
     /**
      * For serialization purposes only
@@ -30,7 +31,7 @@ public class AutoCompletionChoice implements Serializable, IsSerializable {
         this.displayText = displayText;
         this.cssClassName = cssClassName;
         this.replaceTextFrom = replaceTextFrom;
-        this.getReplaceTextTo = getReplaceTextTo;
+        this.replaceTextTo = getReplaceTextTo;
     }
 
     public String getText() {
@@ -49,7 +50,44 @@ public class AutoCompletionChoice implements Serializable, IsSerializable {
         return replaceTextFrom;
     }
 
-    public EditorPosition getGetReplaceTextTo() {
-        return getReplaceTextTo;
+    public EditorPosition getReplaceTextTo() {
+        return replaceTextTo;
+    }
+
+    @Override
+    public int hashCode() {
+        return "AutoCompletionChoice".hashCode() +
+                text.hashCode() +
+                displayText.hashCode() +
+                cssClassName.hashCode() +
+                replaceTextFrom.hashCode() +
+                replaceTextTo.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+        if(!(o instanceof AutoCompletionChoice)) {
+            return false;
+        }
+        AutoCompletionChoice other = (AutoCompletionChoice) o;
+        return this.text.equals(other.text) &&
+                this.displayText.equals(other.displayText) &&
+                this.cssClassName.equals(other.cssClassName) &&
+                this.replaceTextFrom.equals(other.replaceTextFrom) &&
+                this.replaceTextTo.equals(other.replaceTextTo);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper("AutoCompletionChoice")
+                .add("text", text)
+                .add("displayText", displayText)
+                .add("cssClassName", cssClassName)
+                .add("replaceFrom", replaceTextFrom)
+                .add("replaceTo", replaceTextTo)
+                .toString();
     }
 }
