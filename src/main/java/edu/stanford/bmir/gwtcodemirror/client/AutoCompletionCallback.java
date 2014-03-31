@@ -5,5 +5,9 @@ package edu.stanford.bmir.gwtcodemirror.client;
  */
 public interface AutoCompletionCallback {
 
+    /**
+     * A callback that can be used to inform the editor that an auto-completion result is ready.
+     * @param result The result.  Not {@code null}.
+     */
     void completionsReady(AutoCompletionResult result);
 }
