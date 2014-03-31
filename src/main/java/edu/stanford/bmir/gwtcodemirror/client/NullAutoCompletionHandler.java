@@ -5,7 +5,7 @@ package edu.stanford.bmir.gwtcodemirror.client;
  */
 public class NullAutoCompletionHandler implements AutoCompletionHandler {
 
-    public void getCompletions(String text, EditorPosition editorPosition, int editorIndex, AutoCompletionCallback callback) {
+    public void getCompletions(String text, EditorPosition caretPosition, int caretIndex, AutoCompletionCallback callback) {
         callback.completionsReady(AutoCompletionResult.emptyResult());
     }
 }
