@@ -347,26 +347,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
                 }
             }
         );
-        // This is a hack (in the words of the codemirror demo example which it is taken from) to force wrapped lines
-        // to be indented to the current indent level.
-        var charWidth = theCM.defaultCharWidth();
-        var basePadding = 0;
-        theCM.on("renderLine", function (cm, line, elt) {
-//            var firstChild = elt.firstChild;
-//            var tab = false;
-//            var children = elt.children;
-//            for(i = 0; i < children.length; i++) {
-//                var child = children[i];
-//                if(child.className == "cm-string") {
-//                    tab = true;
-//                    break;
-//                }
-//            }
-//            if(tab) {
-//                elt.style.paddingLeft = "100px";
-//            }
-        });
-
         // Listener for changes and propagate them back into the GWT compiled code
         theCM.on("change", function () {
             $entry(myCodeMirror.@edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirror::handleChange()());
