@@ -337,12 +337,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
                             $entry(myCodeMirror.@edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirror::getCompletions(Ljava/lang/String;IIILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(editor.getValue(), cursor.line, cursor.ch, index, result, callback));
                         }, {async: true});
                     }
-//                    "Enter": function (editor) {
-//                        var pos = editor.getCursor();
-//                        editor.indentLine(pos.line);
-//                        return $wnd.CodeMirror.Pass;
-//                    }
-
                 }
             }
         );
