@@ -13,13 +13,13 @@ CodeMirror.defineMode("manchestersyntax", function (config) {
         "EquivalentProperties:": "gen-frame-kw",
         "DisjointProperties:": "gen-frame-kw",
         "SameIndividual:": "gen-frame-kw",
+        "Rule:": "gen-frame-kw",
 
         "Annotations:": "section-kw",
         "SubClassOf:": "section-kw",
         "EquivalentTo:": "section-kw",
         "DisjointWith:": "section-kw",
         "DisjointUnion:": "section-kw",
-        "Rule:": "section-kw",
         "SubPropertyOf:": "section-kw",
         "InverseOf:": "section-kw",
         "SubPropertyChain:": "section-kw",
@@ -192,7 +192,9 @@ CodeMirror.defineMode("manchestersyntax", function (config) {
             return new Token(consumeUntilTerminator(stream, state, '"', 'inString'), "string");
         }
         if(peekDelimeter(stream, state)) {
-            return new Token(stream.next(), "delim");
+            var delimeter = stream.next();
+            var additionalStyle = tokenTypes[delimeter];
+            return new Token(delimeter, "delim " + additionalStyle == null ? "" : additionalStyle);
         }
         var tokenBuffer = "";
         while(!peekDelimeter(stream, state)) {
