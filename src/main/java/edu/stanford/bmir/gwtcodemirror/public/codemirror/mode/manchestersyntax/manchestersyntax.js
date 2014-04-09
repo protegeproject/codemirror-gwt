@@ -278,11 +278,9 @@ CodeMirror.defineMode("manchestersyntax", function (config) {
             tokenBuffer += stream.next();
         }
         var type = tokenTypes[tokenBuffer];
-        console.log("Getting token types...");
         if(type == null) {
             for(var regex in tokenRegexes) {
                 if (tokenRegexes.hasOwnProperty(regex)) {
-                    console.log("Trying against: " + regex);
                     var regExp = new RegExp(regex);
                     var match = regExp.exec(tokenBuffer);
                     if (match != null) {
@@ -334,7 +332,6 @@ CodeMirror.defineMode("manchestersyntax", function (config) {
 
         token: function (stream, state) {
             var token = nextToken(stream, state);
-            console.log("Token: " + token.literal + " -> " + token.type + "  Depth: " + state.nestingLevel);
             consumeToken(token, state);
             return token.type;
         }
