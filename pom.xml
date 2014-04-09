@@ -6,7 +6,7 @@
     <groupId>edu.stanford.protege</groupId>
     <artifactId>codemirror-gwt</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>Code Mirror GWT</name>
     <description>A GWT Wrapper for the CodeMirror Editor</description>
 
