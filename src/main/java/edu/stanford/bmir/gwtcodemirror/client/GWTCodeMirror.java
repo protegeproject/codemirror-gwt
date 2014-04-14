@@ -17,7 +17,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Matthew Horridge, Stanford University, Bio-Medical Informatics Research Group, Date: 18/03/2014
- *         <p/>
+ *
  *         A wrapper for the native JavaScript CodeMirror editor.
  */
 public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
