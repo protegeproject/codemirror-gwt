@@ -12,12 +12,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Matthew Horridge, Stanford University, Bio-Medical Informatics Research Group, Date: 18/03/2014
- *
  *         A wrapper for the native JavaScript CodeMirror editor.
  */
 public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
@@ -69,6 +67,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     /**
      * Sets the value of the editor.
+     *
      * @param value The value.  Not {@code null}.
      * @throws java.lang.NullPointerException if {@code value} is {@code null}.
      */
@@ -89,8 +88,8 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     /**
      * Sets the {@link edu.stanford.bmir.gwtcodemirror.client.AutoCompletionHandler}.
-     * @param autoCompletionHandler The handler.  Not {@code null}.
      *
+     * @param autoCompletionHandler The handler.  Not {@code null}.
      * @throws java.lang.NullPointerException if {@code autoCompletionHandler} is {@code null}.
      */
     public void setAutoCompletionHandler(AutoCompletionHandler autoCompletionHandler) {
@@ -142,7 +141,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public EditorPosition getCaretPosition() {
-        if(theCM == null) {
+        if (theCM == null) {
             return new EditorPosition(0, 0);
         }
         JavaScriptObject editorPosition = getEditorPosition(theCM);
@@ -158,7 +157,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public int getIndexFromEditorPosition(EditorPosition editorPosition) {
-        if(theCM == null) {
+        if (theCM == null) {
             return 0;
         }
         return getIndexFromPosition(theCM, editorPosition.toJavaScriptObject());
@@ -169,7 +168,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }-*/;
 
     public void reindentLines() {
-        if(theCM == null) {
+        if (theCM == null) {
             return;
         }
         reindentLines(theCM);
@@ -177,7 +176,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private native void reindentLines(JavaScriptObject theCM)/*-{
         var lineCount = theCM.lineCount();
-        for(i = 0; i < lineCount; i++) {
+        for (i = 0; i < lineCount; i++) {
             theCM.indentLine(i);
         }
     }-*/;
@@ -432,7 +431,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
 
-
     private static class TextMarker {
 
         private JavaScriptObject javaScriptObject;
@@ -449,4 +447,5 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             object.clear();
         }-*/;
     }
+
 }
