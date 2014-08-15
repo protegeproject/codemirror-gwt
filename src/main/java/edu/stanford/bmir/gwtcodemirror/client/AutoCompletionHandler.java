@@ -13,4 +13,5 @@ public interface AutoCompletionHandler {
      * @param callback A callback that should be used to signal that auto-completion results are ready.  Not {@code null}.
      */
     void getCompletions(String text, EditorPosition caretPosition, int caretIndex, AutoCompletionCallback callback);
+
 }
