@@ -10,8 +10,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Matthew Horridge, Stanford University, Bio-Medical Informatics Research Group, Date: 19/03/2014
- *
- * Represents a CodeMirror editor position, which is identified by the zero-based line number and column number.
+ *         Represents a CodeMirror editor position, which is identified by the zero-based line number and column number.
  */
 public class EditorPosition implements Serializable, IsSerializable {
 
@@ -42,10 +41,10 @@ public class EditorPosition implements Serializable, IsSerializable {
 
     @Override
     public boolean equals(Object o) {
-        if(o == this) {
+        if (o == this) {
             return true;
         }
-        if(!(o instanceof EditorPosition)) {
+        if (!(o instanceof EditorPosition)) {
             return false;
         }
         EditorPosition other = (EditorPosition) o;
@@ -62,6 +61,7 @@ public class EditorPosition implements Serializable, IsSerializable {
 
     /**
      * Consverts this {@code EditorPosition} to a {@code JavaScriptObject}.
+     *
      * @return The {@code JavaScriptObject} that is equivalent to this {@code EditorPosition}.
      */
     public JavaScriptObject toJavaScriptObject() {
@@ -70,8 +70,9 @@ public class EditorPosition implements Serializable, IsSerializable {
 
     /**
      * Create a JavaScriptObject that CodeMirror can use.
+     *
      * @param line The line number.
-     * @param ch The column number.
+     * @param ch   The column number.
      * @return The JavaScriptObject position object.
      */
     private native JavaScriptObject toJavaScriptObject(int line, int ch)/*-{
@@ -84,6 +85,7 @@ public class EditorPosition implements Serializable, IsSerializable {
 
     /**
      * Extracts an {@link EditorPosition} from the specified JavaScriptObject.
+     *
      * @param object The object.  Not {@code null}.
      * @return The corresponding {@link EditorPosition}
      * @throws java.lang.NullPointerException is {@code object} is {@code null}.
@@ -96,7 +98,7 @@ public class EditorPosition implements Serializable, IsSerializable {
     }
 
     private static native int getIntFromJavaScriptObject(JavaScriptObject object, String propertyName, int defaultValue)/*-{
-        if(object[propertyName] == undefined) {
+        if (object[propertyName] == undefined) {
             return defaultValue;
         }
         return object[propertyName];
