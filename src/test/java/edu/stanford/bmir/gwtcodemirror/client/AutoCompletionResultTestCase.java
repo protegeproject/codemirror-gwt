@@ -20,11 +20,10 @@ import static org.mockito.Mockito.mock;
 @RunWith(MockitoJUnitRunner.class)
 public class AutoCompletionResultTestCase {
 
-
     @Mock
     protected EditorPosition fromPosition;
 
-    protected  List<AutoCompletionChoice> choices;
+    protected List<AutoCompletionChoice> choices;
 
     private AutoCompletionResult autoCompletionResult;
 
@@ -74,6 +73,5 @@ public class AutoCompletionResultTestCase {
         choices.remove(0);
         assertThat(autoCompletionResult.getChoices(), is(equalTo(originalChoices)));
     }
-
 
 }
