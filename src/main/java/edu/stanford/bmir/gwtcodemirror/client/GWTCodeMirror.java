@@ -51,15 +51,12 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public GWTCodeMirror(String mode) {
-        this(mode, null);
+        this(mode, DEFAULT_THEME);
     }
 
     public GWTCodeMirror(String mode, String theme) {
-        initialOptions.setMode(mode);
-        if (theme != null) {
-            initialOptions.setTheme(theme);
-        }
-
+        initialOptions.setMode(checkNotNull(mode));
+        initialOptions.setTheme(checkNotNull(theme));
         initWidget(new SimplePanel());
     }
 

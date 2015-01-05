@@ -2,6 +2,8 @@ package edu.stanford.bmir.gwtcodemirror.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import javax.validation.constraints.Null;
+
 /**
  * @author Matthew Horridge, Stanford University, Bio-Medical Informatics Research Group, Date: 31/03/2014
  */
@@ -19,6 +21,24 @@ public class GwtTest_GWTCodeMirror extends GWTTestCase {
         super.gwtSetUp();
         delayTestFinish(10000);
         codeMirror = new GWTCodeMirror();
+    }
+
+    public void test_NullModeThrowsNullPointerException() {
+        try {
+            new GWTCodeMirror(null);
+            fail("Expected NullPointerException");
+        } catch (NullPointerException e) {
+            // Pass
+        }
+    }
+
+    public void test_NullThemeThrowsNullPointerException() {
+        try {
+            new GWTCodeMirror("manchestersyntax", null);
+            fail("Expected NullPointerException");
+        } catch (NullPointerException e) {
+            // Pass
+        }
     }
 
     public void test_getValue_Returns_InitialValueOfEmptyString() {
