@@ -13,13 +13,13 @@ Add the following Maven dependency to your pom.xml
 <dependency>
   <groupId>edu.stanford.protege</groupId>
   <artifactId>codemirror-gwt</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
 Add the following inherits to your GWT module
 ```xml
-<inherits name="edu.stanford.bmir.gwtcodemirror.GWTCodeMirrorModule"/>
+<inherits name="edu.stanford.bmir.gwtcodemirror.CodeMirror"/>
 ```
 
 
