@@ -237,8 +237,11 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         theCM.setValue(text);
     }-*/;
 
+
+    private EditorPosition lastAutoCompletionPosition;
+
     /**
-     * Called to retrive completions.
+     * Called to retrieve completions.
      *
      * @param editorText     The current editor text.
      * @param line           The line number that the caret is at (zero based).
@@ -248,14 +251,19 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
      * @param callback
      */
     private void getCompletions(final String editorText, final int line, final int ch, final int index, final JavaScriptObject completionList, final JavaScriptObject callback) {
+        lastAutoCompletionPosition = new EditorPosition(line, ch);
         autoCompletionHandler.getCompletions(editorText, new EditorPosition(line, ch), index, new AutoCompletionCallback() {
             public void completionsReady(AutoCompletionResult result) {
-                for (AutoCompletionChoice choice : result.getChoices()) {
-                    addElement(completionList, createAutoCompletionResult(choice));
+                // Are they still valid? i.e. are we at the same position?
+                EditorPosition currentPosition = new EditorPosition(line, ch);
+                if(currentPosition.equals(lastAutoCompletionPosition)) {
+                    for (AutoCompletionChoice choice : result.getChoices()) {
+                        addElement(completionList, createAutoCompletionResult(choice));
+                    }
+                    int fromLineNumber = result.getFromPosition().getLineNumber();
+                    int fromColumnNumber = result.getFromPosition().getColumnNumber();
+                    doAutoCompleteCallback(callback, completionList, fromLineNumber, fromColumnNumber);
                 }
-                int fromLineNumber = result.getFromPosition().getLineNumber();
-                int fromColumnNumber = result.getFromPosition().getColumnNumber();
-                doAutoCompleteCallback(callback, completionList, fromLineNumber, fromColumnNumber);
             }
         });
     }
