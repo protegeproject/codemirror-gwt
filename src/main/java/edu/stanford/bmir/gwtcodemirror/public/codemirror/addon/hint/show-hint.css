@@ -14,8 +14,6 @@
   border: 1px solid silver;
 
   background: white;
-  /*font-size: 90%;*/
-  /*font-family: monospace;*/
 
   max-height: 20em;
   overflow-y: auto;
@@ -32,7 +30,7 @@
   cursor: pointer;
 }
 
-.CodeMirror-hint-active {
+li.CodeMirror-hint-active {
   background: #08f !important;
   color: white !important;
 }
