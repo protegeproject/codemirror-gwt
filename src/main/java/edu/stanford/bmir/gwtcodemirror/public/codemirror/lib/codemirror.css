@@ -2,7 +2,9 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  height: 300px;
+  font-family: verdana, arial, helvetica, sans-serif;
+  height: 100%;
+  line-height: 1.4;
 }
 
 /* PADDING */
@@ -138,7 +140,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
    the editor. You probably shouldn't touch them. */
 
 .CodeMirror {
-  line-height: 1;
   position: relative;
   overflow: hidden;
   background: white;
