@@ -47,7 +47,7 @@
     </developers>
 
     <properties>
-        <gwtVersion>2.6.1</gwtVersion>
+        <gwtVersion>2.7.0</gwtVersion>
         <guavaVersion>17.0</guavaVersion>
         <gwt.test.mode>htmlunit</gwt.test.mode>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>

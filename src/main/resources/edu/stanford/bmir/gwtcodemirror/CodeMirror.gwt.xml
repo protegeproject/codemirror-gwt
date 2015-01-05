@@ -7,15 +7,10 @@
     <inherits name="com.google.common.base.Base"/>
     <inherits name="edu.stanford.bmir.gwtcodemirror.CodeMirrorNoResources"/>
 
-    <!-- CodeMirror Syntax Highlighting -->
-    <script src="codemirror/lib/codemirror.js"/>
-    <!-- CodeMirror addon for autocompletion support -->
-    <script src="codemirror/addon/hint/show-hint.js"/>
-    <!-- CodeMirror mode for Manchester Syntax -->
-    <script src="codemirror/mode/manchestersyntax/manchestersyntax.js"/>
+    <entry-point class="edu.stanford.bmir.gwtcodemirror.client.CodeMirror"/>
 
     <!-- stylesheets for codemirror, for manchester syntax and show-hint -->
     <stylesheet src="codemirror/lib/codemirror.css"/>
-    <stylesheet src="manchestersyntax.css"/>
+    <stylesheet src="codemirror/mode/manchestersyntax/manchestersyntax.css"/>
     <stylesheet src="codemirror/addon/hint/show-hint.css"/>
 </module>
