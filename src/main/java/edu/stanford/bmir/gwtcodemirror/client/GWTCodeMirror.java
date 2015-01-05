@@ -56,8 +56,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     public GWTCodeMirror(String mode, String theme) {
         initialOptions.setMode(mode);
-        if (theme != null)
+        if (theme != null) {
             initialOptions.setTheme(theme);
+        }
 
         initWidget(new SimplePanel());
     }
@@ -67,8 +68,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public String getValue() {
-        if (theCM == null)
+        if (theCM == null) {
             return initialOptions.getValue();
+        }
 
         return getValue(theCM);
     }
@@ -113,8 +115,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public boolean isEnabled() {
-        if (theCM == null)
+        if (theCM == null) {
             return !initialOptions.isReadOnly();
+        }
 
         return isEnabled(theCM);
     }
@@ -165,9 +168,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public int getIndexFromEditorPosition(EditorPosition editorPosition) {
-        if (theCM == null)
+        if (theCM == null) {
             return 0;
-
+        }
         return getIndexFromPosition(theCM, editorPosition.toJavaScriptObject());
     }
 
@@ -203,9 +206,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public void setErrorRange(EditorPosition start, EditorPosition end) {
-        if (theCM == null)
+        if (theCM == null) {
             return;
-
+        }
         clearErrorRange();
         JavaScriptObject mark = markText(theCM, start.toJavaScriptObject(), end.toJavaScriptObject(), "error");
         errorMarker = Optional.of(new TextMarker(mark));
@@ -213,8 +216,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     private void handleChange() {
-        if (!settingValue)
+        if (!settingValue) {
             ValueChangeEvent.fire(this, getValue());
+        }
     }
 
     /**
