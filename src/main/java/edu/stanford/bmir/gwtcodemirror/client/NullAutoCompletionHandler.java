@@ -8,4 +8,5 @@ public class NullAutoCompletionHandler implements AutoCompletionHandler {
     public void getCompletions(String text, EditorPosition caretPosition, int caretIndex, AutoCompletionCallback callback) {
         callback.completionsReady(AutoCompletionResult.emptyResult());
     }
+
 }

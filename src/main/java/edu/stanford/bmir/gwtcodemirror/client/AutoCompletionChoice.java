@@ -92,4 +92,5 @@ public class AutoCompletionChoice implements Serializable, IsSerializable {
                 .add("replaceTo", replaceTextTo)
                 .toString();
     }
+
 }

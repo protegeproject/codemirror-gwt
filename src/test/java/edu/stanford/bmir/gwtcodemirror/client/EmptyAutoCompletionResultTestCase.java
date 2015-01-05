@@ -47,5 +47,4 @@ public class EmptyAutoCompletionResultTestCase {
         assertThat(autoCompletionResult.hashCode(), is(equalTo(other.hashCode())));
     }
 
-
 }

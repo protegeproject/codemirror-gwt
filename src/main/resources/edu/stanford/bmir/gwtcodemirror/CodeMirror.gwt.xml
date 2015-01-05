@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module rename-to='GWTCodeMirrorModule'>
-    <!-- Inherit the core Web Toolkit stuff.                        -->
-    <inherits name='com.google.gwt.user.User'/>
-
-    <inherits name='com.google.gwt.junit.JUnit'/>
-
-    <!--<inherits name='com.google.gwt.user.theme.standard.Standard'/>-->
-
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
+        "https://raw.githubusercontent.com/gwtproject/gwt/2.5.1/distro-source/core/src/gwt-module.dtd">
+<module>
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.google.gwt.junit.JUnit"/>
     <inherits name="com.google.common.base.Base"/>
-
-    <entry-point class='edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirrorModule'/>
-
+    <inherits name="edu.stanford.bmir.gwtcodemirror.CodeMirrorNoResources"/>
 
     <!-- CodeMirror Syntax Highlighting -->
     <script src="codemirror/lib/codemirror.js"/>
@@ -23,8 +18,4 @@
     <stylesheet src="codemirror/lib/codemirror.css"/>
     <stylesheet src="manchestersyntax.css"/>
     <stylesheet src="codemirror/addon/hint/show-hint.css"/>
-
-    <source path='client'/>
-    <!--<public path="public"/>-->
-
 </module>

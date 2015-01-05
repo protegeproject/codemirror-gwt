@@ -12,12 +12,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Matthew Horridge, Stanford University, Bio-Medical Informatics Research Group, Date: 18/03/2014
- *
+ * @author <a href='donbeave@gmail.com'>Alexey Zhokhov</a>
  *         A wrapper for the native JavaScript CodeMirror editor.
  */
 public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
@@ -26,6 +25,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private static final String ELEMENT_ID_PREFIX = "cm-editor-";
     private static final String DEFAULT_MODE = "manchestersyntax";
+    private static final String DEFAULT_THEME = "default";
     private static final boolean DEFAULT_READ_ONLY = false;
     private static final boolean DEFAULT_LINE_NUMBERS = true;
     private static final boolean DEFAULT_LINE_WRAPPING = true;
@@ -51,24 +51,31 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public GWTCodeMirror(String mode) {
-        initialOptions.setMode(mode);
-        initWidget(new SimplePanel());
+        this(mode, null);
     }
 
+    public GWTCodeMirror(String mode, String theme) {
+        initialOptions.setMode(mode);
+        if (theme != null)
+            initialOptions.setTheme(theme);
+
+        initWidget(new SimplePanel());
+    }
 
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
     public String getValue() {
-        if (theCM == null) {
+        if (theCM == null)
             return initialOptions.getValue();
-        }
+
         return getValue(theCM);
     }
 
     /**
      * Sets the value of the editor.
+     *
      * @param value The value.  Not {@code null}.
      * @throws java.lang.NullPointerException if {@code value} is {@code null}.
      */
@@ -89,8 +96,8 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     /**
      * Sets the {@link edu.stanford.bmir.gwtcodemirror.client.AutoCompletionHandler}.
-     * @param autoCompletionHandler The handler.  Not {@code null}.
      *
+     * @param autoCompletionHandler The handler.  Not {@code null}.
      * @throws java.lang.NullPointerException if {@code autoCompletionHandler} is {@code null}.
      */
     public void setAutoCompletionHandler(AutoCompletionHandler autoCompletionHandler) {
@@ -106,9 +113,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public boolean isEnabled() {
-        if (theCM == null) {
+        if (theCM == null)
             return !initialOptions.isReadOnly();
-        }
+
         return isEnabled(theCM);
     }
 
@@ -142,9 +149,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public EditorPosition getCaretPosition() {
-        if(theCM == null) {
+        if (theCM == null)
             return new EditorPosition(0, 0);
-        }
+
         JavaScriptObject editorPosition = getEditorPosition(theCM);
         return EditorPosition.fromJavaScriptObject(editorPosition);
     }
@@ -158,9 +165,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public int getIndexFromEditorPosition(EditorPosition editorPosition) {
-        if(theCM == null) {
+        if (theCM == null)
             return 0;
-        }
+
         return getIndexFromPosition(theCM, editorPosition.toJavaScriptObject());
     }
 
@@ -169,7 +176,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }-*/;
 
     public void reindentLines() {
-        if(theCM == null) {
+        if (theCM == null) {
             return;
         }
         reindentLines(theCM);
@@ -177,7 +184,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private native void reindentLines(JavaScriptObject theCM)/*-{
         var lineCount = theCM.lineCount();
-        for(i = 0; i < lineCount; i++) {
+        for (i = 0; i < lineCount; i++) {
             theCM.indentLine(i);
         }
     }-*/;
@@ -196,9 +203,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public void setErrorRange(EditorPosition start, EditorPosition end) {
-        if (theCM == null) {
+        if (theCM == null)
             return;
-        }
+
         clearErrorRange();
         JavaScriptObject mark = markText(theCM, start.toJavaScriptObject(), end.toJavaScriptObject(), "error");
         errorMarker = Optional.of(new TextMarker(mark));
@@ -206,11 +213,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     private void handleChange() {
-        if (!settingValue) {
+        if (!settingValue)
             ValueChangeEvent.fire(this, getValue());
-        }
     }
-
 
     /**
      * Overrides the onLoad() to set up the CodeMirror instance.
@@ -231,7 +236,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     private native void setValue(JavaScriptObject theCM, String text)/*-{
         theCM.setValue(text);
     }-*/;
-
 
     /**
      * Called to retrive completions.
@@ -255,7 +259,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             }
         });
     }
-
 
     /**
      * Adds a JavaScriptObject to a JavaScript array.
@@ -307,7 +310,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         });
     }-*/;
 
-
     /**
      * Sets up the CodeMirror object in native JavaScript.
      *
@@ -324,6 +326,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             element,
             {
                 mode: initialOptions["mode"],
+                theme: initialOptions["theme"],
                 readOnly: initialOptions["readOnly"],
                 lineNumbers: initialOptions["lineNumbers"],
                 lineWrapping: initialOptions["lineWrapping"],
@@ -349,24 +352,19 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     }-*/;
 
-
     private native JavaScriptObject markText(JavaScriptObject theCM, JavaScriptObject start, JavaScriptObject end, String cssClassName)/*-{
         return theCM.markText(start, end, {
             className: cssClassName
         });
     }-*/;
 
-
     private static class InitialOptions {
 
         private String mode = DEFAULT_MODE;
-
+        private String theme = DEFAULT_THEME;
         private String value = "";
-
         private boolean readOnly = DEFAULT_READ_ONLY;
-
         private boolean lineNumbers = DEFAULT_LINE_NUMBERS;
-
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
 
         public String getMode() {
@@ -375,6 +373,14 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
         public void setMode(String mode) {
             this.mode = mode;
+        }
+
+        public String getTheme() {
+            return theme;
+        }
+
+        public void setTheme(String theme) {
+            this.theme = theme;
         }
 
         public String getValue() {
@@ -413,25 +419,23 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             JavaScriptObject result = JavaScriptObject.createObject();
             addProperty(result, "value", value);
             addProperty(result, "mode", mode);
+            if (theme != null)
+                addProperty(result, "theme", theme);
             addProperty(result, "readOnly", readOnly);
             addProperty(result, "lineNumbers", lineNumbers);
             addProperty(result, "lineWrapping", lineWrapping);
             return result;
         }
 
-
         private static native void addProperty(JavaScriptObject javaScriptObject, String property, String value)/*-{
             javaScriptObject[property] = value;
         }-*/;
-
 
         private static native void addProperty(JavaScriptObject javaScriptObject, String property, boolean value)/*-{
             javaScriptObject[property] = value;
         }-*/;
 
     }
-
-
 
     private static class TextMarker {
 
@@ -448,5 +452,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         private native void clear(JavaScriptObject object)/*-{
             object.clear();
         }-*/;
+
     }
+
 }

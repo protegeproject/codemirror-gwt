@@ -66,4 +66,5 @@ public class GwtTest_EditorPosition_JavaScriptObject extends GWTTestCase {
     private static native JavaScriptObject createTestObject()/*-{
         return {line: 2, ch: 5};
     }-*/;
+
 }

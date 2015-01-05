@@ -48,4 +48,5 @@ public class EditorPosition_TestCase {
     public void hashCodeShouldReturnTrueForSameColumnAndLineNumber() {
         assertThat(editorPosition.hashCode(), is(equalTo(new EditorPosition(lineNumber, columnNumber).hashCode())));
     }
+
 }

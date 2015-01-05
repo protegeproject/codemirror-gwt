@@ -11,7 +11,7 @@ public class GwtTest_GWTCodeMirror extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirrorModuleJUnit";
+        return "edu.stanford.bmir.gwtcodemirror.client.CodeMirrorModuleJUnit";
     }
 
     @Override
@@ -79,4 +79,5 @@ public class GwtTest_GWTCodeMirror extends GWTTestCase {
         assertEquals(0, codeMirror.getIndexFromEditorPosition(new EditorPosition(0, 0)));
         finishTest();
     }
+
 }

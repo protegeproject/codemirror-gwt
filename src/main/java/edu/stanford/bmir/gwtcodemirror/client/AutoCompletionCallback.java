@@ -10,4 +10,5 @@ public interface AutoCompletionCallback {
      * @param result The result.  Not {@code null}.
      */
     void completionsReady(AutoCompletionResult result);
+
 }
