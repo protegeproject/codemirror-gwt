@@ -46,7 +46,7 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
 
     private AutoCompletionHandler autoCompletionHandler = NULL_AUTO_COMPLETION_HANDLER;
 
-    private InitialOptions initialOptions = new InitialOptions();
+    private final InitialOptions initialOptions;
 
     public GWTCodeMirror() {
         this(DEFAULT_MODE);
@@ -57,9 +57,12 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
     }
 
     public GWTCodeMirror(String mode, String theme) {
-        initialOptions.setMode(checkNotNull(mode));
-        initialOptions.setTheme(checkNotNull(theme));
-        initWidget(new ResizeableSimplePanel());
+    	this(new InitialOptions(checkNotNull(mode), checkNotNull(theme)));
+    }
+    
+    public GWTCodeMirror(InitialOptions initialOptions){
+    	this.initialOptions = initialOptions;
+    	initWidget(new ResizeableSimplePanel());
     }
 
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
@@ -341,6 +344,7 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
                 readOnly: initialOptions["readOnly"],
                 lineNumbers: initialOptions["lineNumbers"],
                 lineWrapping: initialOptions["lineWrapping"],
+                hintOptions: initialOptions["hintOptions"],
                 viewportMargin: Infinity,
                 extraKeys: {
                     "Ctrl-Space": function (editor) {
@@ -377,6 +381,31 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
         private boolean readOnly = DEFAULT_READ_ONLY;
         private boolean lineNumbers = DEFAULT_LINE_NUMBERS;
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
+        private String hintOptions;
+        
+        public InitialOptions(String mode, String theme){
+        	this(mode, theme, "", DEFAULT_READ_ONLY, DEFAULT_LINE_NUMBERS, DEFAULT_LINE_WRAPPING, null);
+        }
+        
+        public InitialOptions(String mode, String theme, String value,
+				boolean readOnly, boolean lineNumbers, boolean lineWrapping,
+				String hintOptions) {
+			this.mode = mode;
+			this.theme = theme;
+			this.value = value;
+			this.readOnly = readOnly;
+			this.lineNumbers = lineNumbers;
+			this.lineWrapping = lineWrapping;
+			this.hintOptions = hintOptions;
+		}
+
+		public String getHintOptions() {
+			return hintOptions;
+		}
+        
+        public void setHintOptions(String hintOptions) {
+			this.hintOptions = hintOptions;
+		}
 
         public String getMode() {
             return mode;
@@ -435,6 +464,10 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
             addProperty(result, "readOnly", readOnly);
             addProperty(result, "lineNumbers", lineNumbers);
             addProperty(result, "lineWrapping", lineWrapping);
+            
+            if(hintOptions != null){
+            	addProperty(result, "hintOptions", "{schemaInfo: " + hintOptions + "}");
+            }
             return result;
         }
 
