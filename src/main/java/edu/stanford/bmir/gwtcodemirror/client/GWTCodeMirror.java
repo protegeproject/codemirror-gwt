@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 import edu.stanford.bmir.gwtcodemirror.client.util.ResizeableSimplePanel;
@@ -20,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author <a href='donbeave@gmail.com'>Alexey Zhokhov</a>
  *         A wrapper for the native JavaScript CodeMirror editor.
  */
-public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
+public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
 
     private static final NullAutoCompletionHandler NULL_AUTO_COMPLETION_HANDLER = new NullAutoCompletionHandler();
 
