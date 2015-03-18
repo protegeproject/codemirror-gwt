@@ -18,7 +18,13 @@ public interface CodeMirrorClientBundle extends ClientBundle {
 
     @Source("js/codemirror/addon/hint/show-hint.js")
     TextResource jsHintLibrary();
+    
+    @Source("js/codemirror/addon/hint/xml-hint.js")
+    TextResource xmlHintLibrary();
 
     @Source("js/codemirror/mode/manchestersyntax/manchestersyntax.js")
     TextResource manchesterSyntaxMode();
+    
+    @Source("js/codemirror/mode/xml/xml.js")
+    TextResource xmlMode();
 }

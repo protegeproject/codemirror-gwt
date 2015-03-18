@@ -25,7 +25,7 @@ public class GwtTest_GWTCodeMirror extends GWTTestCase {
 
     public void test_NullModeThrowsNullPointerException() {
         try {
-            new GWTCodeMirror(null);
+            new GWTCodeMirror((String) null);
             fail("Expected NullPointerException");
         } catch (NullPointerException e) {
             // Pass

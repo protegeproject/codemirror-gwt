@@ -10,8 +10,10 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import edu.stanford.bmir.gwtcodemirror.client.util.ResizeableSimplePanel;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -19,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author <a href='donbeave@gmail.com'>Alexey Zhokhov</a>
  *         A wrapper for the native JavaScript CodeMirror editor.
  */
-public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
+public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
 
     private static final NullAutoCompletionHandler NULL_AUTO_COMPLETION_HANDLER = new NullAutoCompletionHandler();
 
@@ -44,7 +46,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private AutoCompletionHandler autoCompletionHandler = NULL_AUTO_COMPLETION_HANDLER;
 
-    private InitialOptions initialOptions = new InitialOptions();
+    private final InitialOptions initialOptions;
 
     public GWTCodeMirror() {
         this(DEFAULT_MODE);
@@ -55,9 +57,12 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }
 
     public GWTCodeMirror(String mode, String theme) {
-        initialOptions.setMode(checkNotNull(mode));
-        initialOptions.setTheme(checkNotNull(theme));
-        initWidget(new SimplePanel());
+    	this(new InitialOptions(checkNotNull(mode), checkNotNull(theme)));
+    }
+    
+    public GWTCodeMirror(InitialOptions initialOptions){
+    	this.initialOptions = initialOptions;
+    	initWidget(new ResizeableSimplePanel());
     }
 
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
@@ -339,6 +344,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
                 readOnly: initialOptions["readOnly"],
                 lineNumbers: initialOptions["lineNumbers"],
                 lineWrapping: initialOptions["lineWrapping"],
+                hintOptions: initialOptions["hintOptions"],
                 viewportMargin: Infinity,
                 extraKeys: {
                     "Ctrl-Space": function (editor) {
@@ -367,7 +373,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         });
     }-*/;
 
-    private static class InitialOptions {
+    public static class InitialOptions {
 
         private String mode = DEFAULT_MODE;
         private String theme = DEFAULT_THEME;
@@ -375,6 +381,35 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         private boolean readOnly = DEFAULT_READ_ONLY;
         private boolean lineNumbers = DEFAULT_LINE_NUMBERS;
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
+        private String hintOptions;
+        
+        public InitialOptions(){
+        	
+        }
+        
+        public InitialOptions(String mode, String theme){
+        	this(mode, theme, "", DEFAULT_READ_ONLY, DEFAULT_LINE_NUMBERS, DEFAULT_LINE_WRAPPING, null);
+        }
+        
+        public InitialOptions(String mode, String theme, String value,
+				boolean readOnly, boolean lineNumbers, boolean lineWrapping,
+				String hintOptions) {
+			this.mode = mode;
+			this.theme = theme;
+			this.value = value;
+			this.readOnly = readOnly;
+			this.lineNumbers = lineNumbers;
+			this.lineWrapping = lineWrapping;
+			this.hintOptions = hintOptions;
+		}
+
+		public String getHintOptions() {
+			return hintOptions;
+		}
+        
+        public void setHintOptions(String hintOptions) {
+			this.hintOptions = hintOptions;
+		}
 
         public String getMode() {
             return mode;
@@ -433,6 +468,10 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             addProperty(result, "readOnly", readOnly);
             addProperty(result, "lineNumbers", lineNumbers);
             addProperty(result, "lineWrapping", lineWrapping);
+            
+            if(hintOptions != null){
+            	addProperty(result, "hintOptions", "{schemaInfo: " + hintOptions + "}");
+            }
             return result;
         }
 
