@@ -383,6 +383,10 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
         private String hintOptions;
         
+        public InitialOptions(){
+        	
+        }
+        
         public InitialOptions(String mode, String theme){
         	this(mode, theme, "", DEFAULT_READ_ONLY, DEFAULT_LINE_NUMBERS, DEFAULT_LINE_WRAPPING, null);
         }
