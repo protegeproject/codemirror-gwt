@@ -21,4 +21,7 @@ public interface CodeMirrorClientBundle extends ClientBundle {
 
     @Source("js/codemirror/mode/manchestersyntax/manchestersyntax.js")
     TextResource manchesterSyntaxMode();
+    
+    @Source("js/codemirror/mode/xml/xml.js")
+    TextResource xmlMode();
 }
