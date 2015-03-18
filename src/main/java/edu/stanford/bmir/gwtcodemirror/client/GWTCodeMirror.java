@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import edu.stanford.bmir.gwtcodemirror.client.util.ResizeableSimplePanel;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -57,7 +58,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     public GWTCodeMirror(String mode, String theme) {
         initialOptions.setMode(checkNotNull(mode));
         initialOptions.setTheme(checkNotNull(theme));
-        initWidget(new SimplePanel());
+        initWidget(new ResizeableSimplePanel());
     }
 
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
