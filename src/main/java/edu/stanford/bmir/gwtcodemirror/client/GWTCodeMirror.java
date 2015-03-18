@@ -373,7 +373,7 @@ public class GWTCodeMirror extends ResizeComposite implements TakesValue<String>
         });
     }-*/;
 
-    private static class InitialOptions {
+    public static class InitialOptions {
 
         private String mode = DEFAULT_MODE;
         private String theme = DEFAULT_THEME;
