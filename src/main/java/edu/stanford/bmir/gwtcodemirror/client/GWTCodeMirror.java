@@ -46,6 +46,8 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private InitialOptions initialOptions = new InitialOptions();
 
+    private boolean loadedCm = false;
+
     public GWTCodeMirror() {
         this(DEFAULT_MODE);
     }
@@ -224,6 +226,10 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     @Override
     protected void onLoad() {
         super.onLoad();
+        if(loadedCm) {
+            return;
+        }
+        loadedCm = true;
         Element element = getElement();
         String id = ELEMENT_ID_PREFIX + ++counter;
         element.setId(id);
