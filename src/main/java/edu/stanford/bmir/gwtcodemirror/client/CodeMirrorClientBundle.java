@@ -11,7 +11,7 @@ import com.google.gwt.resources.client.TextResource;
  */
 public interface CodeMirrorClientBundle extends ClientBundle {
 
-    public static final CodeMirrorClientBundle INSTANCE = GWT.create(CodeMirrorClientBundle.class);
+    CodeMirrorClientBundle INSTANCE = GWT.create(CodeMirrorClientBundle.class);
 
     @Source("js/codemirror/lib/codemirror.js")
     TextResource codeMirrorLibrary();

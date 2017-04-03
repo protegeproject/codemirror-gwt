@@ -203,17 +203,15 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         }
     }-*/;
 
-    public void setAutoCompleteOnAnyKey(boolean autocompleteOnAnyKey) {
-        if(theCM == null) {
-            initialOptions.setAutocompleteOnAnyKey(autocompleteOnAnyKey);
-            return;
-        }
 
+    /**
+     * Registers a character so that after the character is displayed in the editor the
+     * auto-complete popup is automatically displayed.
+     * @param key The key to be registered.
+     */
+    public void addAutoCompleteCharacter(char key) {
+        initialOptions.addAutoCompleteCharacter(Character.toString(key));
     }
-
-    private native void setAutoCompleteOnAnyKey(JavaScriptObject theCM, boolean autocompleteOnAnyKey);/*-{
-        theCM["autocompleteOnAnyKey"] = autocompleteOnAnyKey;
-    }-*/
 
     public void clearErrorRange() {
         if (theCM == null) {
@@ -357,6 +355,14 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
      * for calls into native code.
      */
     private native JavaScriptObject setup(GWTCodeMirror myCodeMirror, String id, JavaScriptObject initialOptions)/*-{
+        var doAutoComplete = function (editor) {
+            $wnd.CodeMirror.showHint(editor, function (editor, callback) {
+                var result = [];
+                var cursor = editor.doc.getCursor();
+                var index = editor.indexFromPos(cursor);
+                $entry(myCodeMirror.@edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirror::getCompletions(Ljava/lang/String;IIILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(editor.getValue(), cursor.line, cursor.ch, index, result, callback));
+            }, {async: true});
+        };
         // We install an instance of the CodeMirror editor by assigning an id to the intended parent element
         // and then asking code mirror to create the editor for that element.
         var element = $doc.getElementById(id);
@@ -370,20 +376,18 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
                 lineWrapping: initialOptions["lineWrapping"],
                 viewportMargin: Infinity,
                 extraKeys: {
-                    "Ctrl-Space": function (editor) {
-                        $wnd.CodeMirror.showHint(editor, function (editor, callback) {
-                            var result = [];
-                            var cursor = editor.doc.getCursor();
-                            var index = editor.indexFromPos(cursor);
-                            $entry(myCodeMirror.@edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirror::getCompletions(Ljava/lang/String;IIILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(editor.getValue(), cursor.line, cursor.ch, index, result, callback));
-                        }, {async: true});
-                    }
+                    "Ctrl-Space": doAutoComplete
                 }
             }
         );
         // Listener for changes and propagate them back into the GWT compiled code
         theCM.on("change", function () {
             $entry(myCodeMirror.@edu.stanford.bmir.gwtcodemirror.client.GWTCodeMirror::handleChange()());
+        });
+        theCM.on("inputRead", function (editor, change) {
+            if (initialOptions["autoCompleteCharacters"].indexOf(change.text[0]) > -1) {
+                doAutoComplete(editor);
+            }
         });
         return theCM;
 
@@ -404,7 +408,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         private boolean readOnly = DEFAULT_READ_ONLY;
         private boolean lineNumbers = DEFAULT_LINE_NUMBERS;
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
-        private boolean autocompleteOnAnyKey = false;
+        private String autoCompleteCharacters = "";
 
         public String getMode() {
             return mode;
@@ -454,8 +458,8 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             this.lineWrapping = lineWrapping;
         }
 
-        public void setAutocompleteOnAnyKey(boolean autocompleteOnAnyKey) {
-            this.autocompleteOnAnyKey = autocompleteOnAnyKey;
+        public void addAutoCompleteCharacter(String key) {
+            autoCompleteCharacters += key;
         }
 
         public JavaScriptObject toJavaScriptObject() {
@@ -467,7 +471,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             addProperty(result, "readOnly", readOnly);
             addProperty(result, "lineNumbers", lineNumbers);
             addProperty(result, "lineWrapping", lineWrapping);
-            addProperty(result, "autocompleteOnAnyKey", autocompleteOnAnyKey);
+            addProperty(result, "autoCompleteCharacters", autoCompleteCharacters);
             return result;
         }
 
