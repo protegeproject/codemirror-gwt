@@ -1,5 +1,6 @@
 package edu.stanford.bmir.gwtcodemirror.client;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -53,10 +54,10 @@ public class EditorPosition implements Serializable, IsSerializable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper("EditorPosition")
-                .add("lineNumber", lineNumber)
-                .add("columnNumber", columnNumber)
-                .toString();
+        return MoreObjects.toStringHelper("EditorPosition")
+                          .add("lineNumber", lineNumber)
+                          .add("columnNumber", columnNumber)
+                          .toString();
     }
 
     /**

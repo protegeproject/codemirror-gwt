@@ -1,5 +1,6 @@
 package edu.stanford.bmir.gwtcodemirror.client;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -84,13 +85,13 @@ public class AutoCompletionChoice implements Serializable, IsSerializable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper("AutoCompletionChoice")
-                .add("text", text)
-                .add("displayText", displayText)
-                .add("cssClassName", cssClassName)
-                .add("replaceFrom", replaceTextFrom)
-                .add("replaceTo", replaceTextTo)
-                .toString();
+        return MoreObjects.toStringHelper("AutoCompletionChoice")
+                          .add("text", text)
+                          .add("displayText", displayText)
+                          .add("cssClassName", cssClassName)
+                          .add("replaceFrom", replaceTextFrom)
+                          .add("replaceTo", replaceTextTo)
+                          .toString();
     }
 
 }
