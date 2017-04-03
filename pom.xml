@@ -47,7 +47,7 @@
 
     <properties>
         <gwtVersion>2.8.0</gwtVersion>
-        <guavaVersion>17.0</guavaVersion>
+        <guavaVersion>21.0</guavaVersion>
         <gwt.test.mode>htmlunit</gwt.test.mode>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
