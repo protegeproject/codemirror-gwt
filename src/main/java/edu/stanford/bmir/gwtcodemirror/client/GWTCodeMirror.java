@@ -1,6 +1,5 @@
 package edu.stanford.bmir.gwtcodemirror.client;
 
-import com.google.common.base.Optional;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -13,6 +12,8 @@ import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
+
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -49,7 +50,8 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private JavaScriptObject theCM;
 
-    private Optional<TextMarker> errorMarker = Optional.absent();
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType" )
+    private Optional<TextMarker> errorMarker = Optional.empty();
 
     private AutoCompletionHandler autoCompletionHandler = NULL_AUTO_COMPLETION_HANDLER;
 
@@ -232,7 +234,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             return;
         }
         errorMarker.get().clear();
-        errorMarker = Optional.absent();
+        errorMarker = Optional.empty();
     }
 
 
