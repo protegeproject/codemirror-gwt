@@ -9,8 +9,10 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.impl.FocusImpl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -19,16 +21,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author <a href='donbeave@gmail.com'>Alexey Zhokhov</a>
  *         A wrapper for the native JavaScript CodeMirror editor.
  */
-public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled {
+public class GWTCodeMirror extends Composite implements TakesValue<String>, HasValueChangeHandlers<String>, HasEnabled, Focusable {
 
     private static final NullAutoCompletionHandler NULL_AUTO_COMPLETION_HANDLER = new NullAutoCompletionHandler();
 
     private static final String ELEMENT_ID_PREFIX = "cm-editor-";
+
     private static final String DEFAULT_MODE = "manchestersyntax";
+
     private static final String DEFAULT_THEME = "default";
+
     private static final boolean DEFAULT_READ_ONLY = false;
+
     private static final boolean DEFAULT_LINE_NUMBERS = true;
+
     private static final boolean DEFAULT_LINE_WRAPPING = true;
+
+    private FocusImpl focus = FocusImpl.getFocusImplForWidget();
 
     /*
         Important things to remember:
@@ -150,7 +159,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     }-*/;
 
     public void setLineNumbersVisible(boolean b) {
-        if(theCM == null) {
+        if (theCM == null) {
             initialOptions.setLineNumbers(b);
             return;
         }
@@ -163,8 +172,9 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
 
     public EditorPosition getCaretPosition() {
-        if (theCM == null)
+        if (theCM == null) {
             return new EditorPosition(0, 0);
+        }
 
         JavaScriptObject editorPosition = getEditorPosition(theCM);
         return EditorPosition.fromJavaScriptObject(editorPosition);
@@ -207,6 +217,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     /**
      * Registers a character so that after the character is displayed in the editor the
      * auto-complete popup is automatically displayed.
+     *
      * @param key The key to be registered.
      */
     public void addAutoCompleteCharacter(char key) {
@@ -230,7 +241,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             return;
         }
         clearErrorRange();
-        JavaScriptObject mark = markText(theCM, start.toJavaScriptObject(), end.toJavaScriptObject(), "error");
+        JavaScriptObject mark = markText(theCM, start.toJavaScriptObject(), end.toJavaScriptObject(), "error" );
         errorMarker = Optional.of(new TextMarker(mark));
     }
 
@@ -247,7 +258,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(loadedCm) {
+        if (loadedCm) {
             return;
         }
         loadedCm = true;
@@ -278,22 +289,35 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
      *                       This can be done by calling {@link #addElement(JavaScriptObject, JavaScriptObject)}.
      * @param callback
      */
-    private void getCompletions(final String editorText, final int line, final int ch, final int index, final JavaScriptObject completionList, final JavaScriptObject callback) {
+    private void getCompletions(final String editorText,
+                                final int line,
+                                final int ch,
+                                final int index,
+                                final JavaScriptObject completionList,
+                                final JavaScriptObject callback) {
         lastAutoCompletionPosition = new EditorPosition(line, ch);
-        autoCompletionHandler.getCompletions(editorText, new EditorPosition(line, ch), index, new AutoCompletionCallback() {
-            public void completionsReady(AutoCompletionResult result) {
-                // Are they still valid? i.e. are we at the same position?
-                EditorPosition currentPosition = new EditorPosition(line, ch);
-                if(currentPosition.equals(lastAutoCompletionPosition)) {
-                    for (AutoCompletionChoice choice : result.getChoices()) {
-                        addElement(completionList, createAutoCompletionResult(choice));
-                    }
-                    int fromLineNumber = result.getFromPosition().getLineNumber();
-                    int fromColumnNumber = result.getFromPosition().getColumnNumber();
-                    doAutoCompleteCallback(callback, completionList, fromLineNumber, fromColumnNumber);
-                }
-            }
-        });
+        autoCompletionHandler.getCompletions(editorText,
+                                             new EditorPosition(line, ch),
+                                             index,
+                                             new AutoCompletionCallback() {
+                                                 public void completionsReady(AutoCompletionResult result) {
+                                                     // Are they still valid? i.e. are we at the same position?
+                                                     EditorPosition currentPosition = new EditorPosition(line, ch);
+                                                     if (currentPosition.equals(lastAutoCompletionPosition)) {
+                                                         for (AutoCompletionChoice choice : result.getChoices()) {
+                                                             addElement(completionList,
+                                                                        createAutoCompletionResult(choice));
+                                                         }
+                                                         int fromLineNumber = result.getFromPosition().getLineNumber();
+                                                         int fromColumnNumber = result.getFromPosition()
+                                                                                      .getColumnNumber();
+                                                         doAutoCompleteCallback(callback,
+                                                                                completionList,
+                                                                                fromLineNumber,
+                                                                                fromColumnNumber);
+                                                     }
+                                                 }
+                                             });
     }
 
     /**
@@ -309,7 +333,11 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     private JavaScriptObject createAutoCompletionResult(AutoCompletionChoice choice) {
         JavaScriptObject from = choice.getReplaceTextFrom().toJavaScriptObject();
         JavaScriptObject to = choice.getReplaceTextTo().toJavaScriptObject();
-        return createAutoCompletionResult(choice.getText(), choice.getDisplayText(), choice.getCssClassName(), from, to);
+        return createAutoCompletionResult(choice.getText(),
+                                          choice.getDisplayText(),
+                                          choice.getCssClassName(),
+                                          from,
+                                          to);
     }
 
     /**
@@ -320,7 +348,11 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
      * @param className   The CSS class name of the item in the list.
      * @return The JavaScriptObject that specified the given properties.
      */
-    private native JavaScriptObject createAutoCompletionResult(String text, String displayText, String className, JavaScriptObject from, JavaScriptObject to)/*-{
+    private native JavaScriptObject createAutoCompletionResult(String text,
+                                                               String displayText,
+                                                               String className,
+                                                               JavaScriptObject from,
+                                                               JavaScriptObject to)/*-{
         return {
             'text': text,
             'displayText': displayText,
@@ -339,7 +371,10 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
      * @param line             The line of the completion (zero based index).
      * @param ch               The character index on the line of the completion (zero based index).
      */
-    private native void doAutoCompleteCallback(JavaScriptObject callbackFunction, JavaScriptObject argument, int line, int ch)/*-{
+    private native void doAutoCompleteCallback(JavaScriptObject callbackFunction,
+                                               JavaScriptObject argument,
+                                               int line,
+                                               int ch)/*-{
         callbackFunction({
             list: argument,
             from: {'line': line, 'ch': ch}
@@ -394,7 +429,10 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     }-*/;
 
-    private native JavaScriptObject markText(JavaScriptObject theCM, JavaScriptObject start, JavaScriptObject end, String cssClassName)/*-{
+    private native JavaScriptObject markText(JavaScriptObject theCM,
+                                             JavaScriptObject start,
+                                             JavaScriptObject end,
+                                             String cssClassName)/*-{
         return theCM.markText(start, end, {
             className: cssClassName
         });
@@ -403,11 +441,17 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
     private static class InitialOptions {
 
         private String mode = DEFAULT_MODE;
+
         private String theme = DEFAULT_THEME;
+
         private String value = "";
+
         private boolean readOnly = DEFAULT_READ_ONLY;
+
         private boolean lineNumbers = DEFAULT_LINE_NUMBERS;
+
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
+
         private String autoCompleteCharacters = "";
 
         public String getMode() {
@@ -464,14 +508,15 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
         public JavaScriptObject toJavaScriptObject() {
             JavaScriptObject result = JavaScriptObject.createObject();
-            addProperty(result, "value", value);
-            addProperty(result, "mode", mode);
-            if (theme != null)
-                addProperty(result, "theme", theme);
-            addProperty(result, "readOnly", readOnly);
-            addProperty(result, "lineNumbers", lineNumbers);
-            addProperty(result, "lineWrapping", lineWrapping);
-            addProperty(result, "autoCompleteCharacters", autoCompleteCharacters);
+            addProperty(result, "value" , value);
+            addProperty(result, "mode" , mode);
+            if (theme != null) {
+                addProperty(result, "theme" , theme);
+            }
+            addProperty(result, "readOnly" , readOnly);
+            addProperty(result, "lineNumbers" , lineNumbers);
+            addProperty(result, "lineWrapping" , lineWrapping);
+            addProperty(result, "autoCompleteCharacters" , autoCompleteCharacters);
             return result;
         }
 
@@ -501,6 +546,36 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             object.clear();
         }-*/;
 
+    }
+
+
+    public void setFocus(boolean focused) {
+        if (focused) {
+            focus.focus(this.getElement());
+        }
+        else {
+            focus.blur(this.getElement());
+        }
+    }
+
+    public void setAccessKey(char key) {
+        this.getElement().setPropertyString("accessKey", "" + key);
+    }
+
+    public int getTabIndex() {
+        return focus.getTabIndex(this.getElement());
+    }
+
+    public void setTabIndex(int index) {
+        focus.setTabIndex(this.getElement(), index);
+    }
+
+    protected void onAttach() {
+        super.onAttach();
+        int tabIndex = this.getTabIndex();
+        if (-1 == tabIndex) {
+            this.setTabIndex(0);
+        }
     }
 
 }
