@@ -16,9 +16,18 @@ public interface CodeMirrorClientBundle extends ClientBundle {
     @Source("js/codemirror/lib/codemirror.js")
     TextResource codeMirrorLibrary();
 
+    @Source("js/codemirror/addon/mode/overlay.js")
+    TextResource overlayLibrary();
+
     @Source("js/codemirror/addon/hint/show-hint.js")
     TextResource jsHintLibrary();
 
     @Source("js/codemirror/mode/manchestersyntax/manchestersyntax.js")
     TextResource manchesterSyntaxMode();
+
+    @Source("js/codemirror/mode/markdown/markdown.js")
+    TextResource markdownMode();
+
+    @Source("js/codemirror/mode/gfm/gfm.js")
+    TextResource gfmMarkdownMode();
 }

@@ -15,8 +15,11 @@ public class CodeMirror implements EntryPoint {
     public void onModuleLoad() {
         CodeMirrorClientBundle clientBundle = CodeMirrorClientBundle.INSTANCE;
         injectScript(clientBundle.codeMirrorLibrary());
+        injectScript(clientBundle.overlayLibrary());
         injectScript(clientBundle.jsHintLibrary());
         injectScript(clientBundle.manchesterSyntaxMode());
+        injectScript(clientBundle.markdownMode());
+        injectScript(clientBundle.gfmMarkdownMode());
     }
 
     private void injectScript(TextResource scriptResource) {

@@ -149,6 +149,18 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         theCM.setOption("lineWrapping", b);
     }-*/;
 
+    public void setLineNumbersVisible(boolean b) {
+        if(theCM == null) {
+            initialOptions.setLineNumbers(b);
+            return;
+        }
+        setLineNumbersVisible(theCM, b);
+    }
+
+    private native void setLineNumbersVisible(JavaScriptObject theCM, boolean b)/*-{
+        theCM.setOption("lineNumbers", b);
+    }-*/;
+
 
     public EditorPosition getCaretPosition() {
         if (theCM == null)
@@ -191,6 +203,17 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         }
     }-*/;
 
+    public void setAutoCompleteOnAnyKey(boolean autocompleteOnAnyKey) {
+        if(theCM == null) {
+            initialOptions.setAutocompleteOnAnyKey(autocompleteOnAnyKey);
+            return;
+        }
+
+    }
+
+    private native void setAutoCompleteOnAnyKey(JavaScriptObject theCM, boolean autocompleteOnAnyKey);/*-{
+        theCM["autocompleteOnAnyKey"] = autocompleteOnAnyKey;
+    }-*/
 
     public void clearErrorRange() {
         if (theCM == null) {
@@ -381,6 +404,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
         private boolean readOnly = DEFAULT_READ_ONLY;
         private boolean lineNumbers = DEFAULT_LINE_NUMBERS;
         private boolean lineWrapping = DEFAULT_LINE_WRAPPING;
+        private boolean autocompleteOnAnyKey = false;
 
         public String getMode() {
             return mode;
@@ -430,6 +454,10 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             this.lineWrapping = lineWrapping;
         }
 
+        public void setAutocompleteOnAnyKey(boolean autocompleteOnAnyKey) {
+            this.autocompleteOnAnyKey = autocompleteOnAnyKey;
+        }
+
         public JavaScriptObject toJavaScriptObject() {
             JavaScriptObject result = JavaScriptObject.createObject();
             addProperty(result, "value", value);
@@ -439,6 +467,7 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
             addProperty(result, "readOnly", readOnly);
             addProperty(result, "lineNumbers", lineNumbers);
             addProperty(result, "lineWrapping", lineWrapping);
+            addProperty(result, "autocompleteOnAnyKey", autocompleteOnAnyKey);
             return result;
         }
 
