@@ -38,8 +38,6 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     private static final boolean DEFAULT_LINE_WRAPPING = true;
 
-    private FocusImpl focus = FocusImpl.getFocusImplForWidget();
-
     /*
         Important things to remember:
         JavaScriptObjects can only be created in and mutated in native java script code.
@@ -550,26 +548,35 @@ public class GWTCodeMirror extends Composite implements TakesValue<String>, HasV
 
     }
 
-
-    public void setFocus(boolean focused) {
-        if (focused) {
-            focus.focus(this.getElement());
-        }
-        else {
-            focus.blur(this.getElement());
-        }
+    private Optional<com.google.gwt.dom.client.Element> getCodeMirrorElement() {
+        return Optional.ofNullable(getElement().getFirstChildElement());
     }
 
+    public void setFocus(boolean focused) {
+        getCodeMirrorElement().ifPresent(element -> {
+            setFocus(theCM, focused);
+        });
+    }
+
+    private native void setFocus(JavaScriptObject theCM, boolean focus);/*-{
+        if(focus) {
+            theCM.focus();
+        }
+        else {
+            theCM.blur();
+        }
+    }-*/
+
     public void setAccessKey(char key) {
-        this.getElement().setPropertyString("accessKey", "" + key);
+        getCodeMirrorElement().ifPresent(element -> element.setPropertyString("accessKey", Character.toString(key)));
     }
 
     public int getTabIndex() {
-        return focus.getTabIndex(this.getElement());
+        return getCodeMirrorElement().map(element -> element.getTabIndex()).orElse(-1);
     }
 
     public void setTabIndex(int index) {
-        focus.setTabIndex(this.getElement(), index);
+        getCodeMirrorElement().ifPresent(element -> element.setTabIndex(index));
     }
 
     protected void onAttach() {
